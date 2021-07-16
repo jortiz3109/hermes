@@ -1,0 +1,48 @@
+{
+    "name": "johndev/hermes",
+    "description": "A simple message broker package",
+    "keywords": [
+        "amqp", "sqs", "message broker"
+    ],
+    "support": {
+        "issues": "https://github.com/jortiz3109/hermes/issues",
+        "source": "https://github.com/jortiz3109/hermes/"
+    },
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "John Edisson Ortiz",
+            "email": "me@johndev.co"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "bschmitt/laravel-amqp": "^2.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~9.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "JohnDev\\Hermes\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "JohnDev\\Hermes\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "JohnDev\\Hermes\\HermesServiceProvider"
+            ],
+            "aliases": {
+                "Amqp": "JohnDev\\Hermes\\Facades\\MessageBroker"
+            }
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

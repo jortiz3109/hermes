@@ -1,0 +1,13 @@
+{
+    "name": "johndev/hermes",
+    "description": "A simple message broker package",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "John Edisson Ortiz",
+            "email": "me@johndev.co"
+        }
+    ],
+    "require": {}
+}

@@ -18,28 +18,29 @@
     ],
     "require": {
         "php": ">=7.4",
-        "bschmitt/laravel-amqp": "^2.0"
+        "bschmitt/laravel-amqp": "^2.0",
+        "illuminate/config": "^8.50"
     },
     "require-dev": {
         "phpunit/phpunit": "~9.0"
     },
     "autoload": {
         "psr-4": {
-            "JohnDev\\Hermes\\": "src/"
+            "Hermes\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "JohnDev\\Hermes\\Tests\\": "tests/"
+            "Hermes\\Tests\\": "tests/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "JohnDev\\Hermes\\HermesServiceProvider"
+                "Hermes\\HermesServiceProvider"
             ],
             "aliases": {
-                "Amqp": "JohnDev\\Hermes\\Facades\\MessageBroker"
+                "Amqp": "Hermes\\Facades\\MessageBroker"
             }
         }
     },

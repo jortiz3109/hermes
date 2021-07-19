@@ -1,9 +1,9 @@
 <?php
 
-namespace Hermes\Carriers;
+namespace JohnDev\Hermes\Carriers;
 
 use Closure;
-use Hermes\Contracts\CarrierContract;
+use JohnDev\Hermes\Contracts\CarrierContract;
 
 abstract class CarrierBase implements CarrierContract
 {

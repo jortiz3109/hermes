@@ -1,6 +1,6 @@
 <?php
 
-namespace Hermes;
+namespace JohnDev\Hermes;
 
 use Hermes\Builders\CarrierBuilder;
 use Hermes\Contracts\CarrierContract;

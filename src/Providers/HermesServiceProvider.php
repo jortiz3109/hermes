@@ -1,7 +1,6 @@
 <?php
-namespace Hermes\Providers;
+namespace JohnDev\Hermes\Providers;
 
-use Hermes\Console\Commands\ListenCommand;
 use Illuminate\Support\ServiceProvider;
 
 class HermesServiceProvider extends ServiceProvider
@@ -11,7 +10,6 @@ class HermesServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->publishConfig();
-        $this->registerCommands();
     }
 
     public function register(): void
@@ -22,14 +20,5 @@ class HermesServiceProvider extends ServiceProvider
     private function publishConfig(): void
     {
         $this->publishes([__DIR__ . '/../../config/hermes.php' => config_path('hermes.php')]);
-    }
-
-    private function registerCommands(): void
-    {
-        if ($this->app->runningInConsole()) {
-            $this->commands([
-                ListenCommand::class
-            ]);
-        }
     }
 }

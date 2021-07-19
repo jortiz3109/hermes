@@ -1,5 +1,5 @@
 <?php
-namespace Hermes\Helpers;
+namespace JohnDev\Hermes\Helpers;
 
 use Illuminate\Support\Facades\Config;
 

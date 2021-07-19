@@ -1,6 +1,6 @@
 <?php
 
-namespace Hermes;
+namespace JohnDev\Hermes;
 
 use Closure;
 

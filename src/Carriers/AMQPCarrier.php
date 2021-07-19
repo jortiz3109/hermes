@@ -1,8 +1,8 @@
 <?php
-namespace Hermes\Carriers;
+namespace JohnDev\Hermes\Carriers;
 
 use Closure;
-use Hermes\Helpers\ConfigHelper;
+use JohnDev\Hermes\Helpers\ConfigHelper;
 use Illuminate\Support\Arr;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPSSLConnection;
@@ -37,7 +37,7 @@ class AMQPCarrier extends CarrierBase
             false,
             false,
             function (AMQPMessage $message) use ($closure) {
-                $closure($message, $this);
+                $closure(new \Hermes\Messages\AMQPMessage($message), $this);
             },
         );
 

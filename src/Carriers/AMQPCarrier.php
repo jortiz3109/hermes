@@ -37,7 +37,7 @@ class AMQPCarrier extends CarrierBase
             false,
             false,
             function (AMQPMessage $message) use ($closure) {
-                $closure($message, $this);
+                $closure(new \Hermes\Messages\AMQPMessage($message), $this);
             },
         );
 

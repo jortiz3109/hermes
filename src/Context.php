@@ -2,8 +2,8 @@
 
 namespace JohnDev\Hermes;
 
-use Hermes\Builders\CarrierBuilder;
-use Hermes\Contracts\CarrierContract;
+use JohnDev\Hermes\Builders\CarrierBuilder;
+use JohnDev\Hermes\Contracts\CarrierContract;
 
 abstract class Context
 {

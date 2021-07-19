@@ -6,7 +6,7 @@ use JohnDev\Hermes\MessageBroker;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @method static void queue(string $queue): MessageBroker
+ * @method static MessageBroker queue(string $queue)
  * @method static void publish(string $bindingKey, string $message, array $options = [])
  * @method static void consume(Closure $closure)
  *

@@ -19,7 +19,8 @@
     "require": {
         "php": ">=7.4",
         "bschmitt/laravel-amqp": "^2.0",
-        "illuminate/config": "^8.50"
+        "illuminate/config": "^8.50",
+        "illuminate/console": "^8.50"
     },
     "require-dev": {
         "phpunit/phpunit": "~9.0"
@@ -37,10 +38,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Hermes\\HermesServiceProvider"
+                "Hermes\\Providers\\HermesServiceProvider"
             ],
             "aliases": {
-                "Amqp": "Hermes\\Facades\\MessageBroker"
+                "Hermes": "Hermes"
             }
         }
     },

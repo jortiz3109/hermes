@@ -1,5 +1,5 @@
 <?php
-namespace Hermes\Providers;
+namespace JohnDev\Hermes\Providers;
 
 use Illuminate\Support\ServiceProvider;
 

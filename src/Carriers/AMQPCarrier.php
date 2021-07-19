@@ -4,6 +4,7 @@ namespace JohnDev\Hermes\Carriers;
 use Closure;
 use JohnDev\Hermes\Helpers\ConfigHelper;
 use Illuminate\Support\Arr;
+use JohnDev\Hermes\Messages\AMQPMessage as Message;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPSSLConnection;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
@@ -37,7 +38,7 @@ class AMQPCarrier extends CarrierBase
             false,
             false,
             function (AMQPMessage $message) use ($closure) {
-                $closure(new \Hermes\Messages\AMQPMessage($message), $this);
+                $closure(new Message($message), $this);
             },
         );
 

@@ -1,9 +1,9 @@
 <?php
-namespace Hermes\Builders;
+namespace JohnDev\Hermes\Builders;
 
-use Hermes\Carriers\AMQPCarrier;
-use Hermes\Contracts\CarrierContract;
-use Hermes\Helpers\ConfigHelper;
+use JohnDev\Hermes\Carriers\AMQPCarrier;
+use JohnDev\Hermes\Contracts\CarrierContract;
+use JohnDev\Hermes\Helpers\ConfigHelper;
 
 class CarrierBuilder
 {

@@ -27,18 +27,18 @@
     },
     "autoload": {
         "psr-4": {
-            "Hermes\\": "src/"
+            "JohnDev\\Hermes\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Hermes\\Tests\\": "tests/"
+            "JohnDev\\Hermes\\Tests\\": "tests/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Hermes\\Providers\\HermesServiceProvider"
+                "JohnDev\\Hermes\\Providers\\HermesServiceProvider"
             ],
             "aliases": {
                 "Hermes": "Hermes"

@@ -1,8 +1,8 @@
 <?php
-namespace Hermes\Facades;
+namespace JohnDev\Hermes\Facades;
 
 use Closure;
-use Hermes\MessageBroker;
+use JohnDev\Hermes\MessageBroker;
 use Illuminate\Support\Facades\Facade;
 
 /**

@@ -1,6 +1,6 @@
 <?php
 
-namespace Hermes\Contracts;
+namespace JohnDev\Hermes\Contracts;
 
 interface MessageContract
 {

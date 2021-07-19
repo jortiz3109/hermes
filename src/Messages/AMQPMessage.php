@@ -1,7 +1,7 @@
 <?php
-namespace Hermes\Messages;
+namespace JohnDev\Hermes\Messages;
 
-use Hermes\Message;
+use JohnDev\Hermes\Message;
 use PhpAmqpLib\Message\AMQPMessage as AMQPMessageBase;
 
 class AMQPMessage extends Message

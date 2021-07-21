@@ -8,9 +8,10 @@ use JohnDev\Hermes\Contracts\CarrierContract;
 abstract class Context
 {
     protected CarrierContract $carrier;
+    protected array $config;
 
-    public function __construct()
+    public function __construct(string $carrier, array $config)
     {
-        $this->carrier = CarrierBuilder::build();
+        $this->carrier = CarrierBuilder::build($carrier, $config);
     }
 }

@@ -5,20 +5,24 @@ return [
     'connections' => [
         'amqp' => [
             'exchange' => [
-                'name' => env('HERMES_AMQP_EXCHANGE_NAME', 'amq.direct'),
-                'type' => env('HERMES_AMQP_EXCHANGE_TYPE', 'direct')
+                'name' => env('AMQP_EXCHANGE_NAME', 'amq.direct'),
+                'type' => env('AMQP_EXCHANGE_TYPE', 'direct')
             ],
             'queue' => [
-                'name' => env('HERMES_AMQP_QUEUE_NAME', 'hermes')
+                'name' => env('AMQP_QUEUE_NAME', 'hermes')
             ],
-            'host' => env('HERMES_AMQP_HOST', ''),
-            'port' => env('HERMES_AMQP_PORT', '5672'),
-            'user' => env('HERMES_AMQP_USER', ''),
-            'password' => env('HERMES_AMQP_PASSWORD', ''),
-            'vhost' => env('HERMES_AMQP_VHOST', '/'),
-            'ssl' => env('HERMES_AMQP_SSL', true),
+            'consume' => [
+                'tag' => env('AMQP_CONSUME_TAG', ''),
+                'timeout' => 2,
+            ],
+            'host' => env('AMQP_HOST', ''),
+            'port' => env('AMQP_PORT', '5672'),
+            'user' => env('AMQP_USER', ''),
+            'password' => env('AMQP_PASSWORD', ''),
+            'vhost' => env('AMQP_VHOST', '/'),
+            'ssl' => env('AMQP_SSL', true),
             'ssl_options' => [
-                'ssl_protocol' => env('HERMES_AMQP_SSL_PROTOCOL', 'ssl'),
+                'ssl_protocol' => env('AMQP_SSL_PROTOCOL', 'ssl'),
             ]
         ],
     ],

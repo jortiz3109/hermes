@@ -2,7 +2,6 @@
 namespace JohnDev\Hermes\Carriers;
 
 use Closure;
-use JohnDev\Hermes\Helpers\ConfigHelper;
 use Illuminate\Support\Arr;
 use JohnDev\Hermes\Messages\AMQPMessage as Message;
 use PhpAmqpLib\Channel\AMQPChannel;
@@ -15,12 +14,14 @@ class AMQPCarrier extends CarrierBase
     private AMQPStreamConnection $connection;
     private AMQPChannel $channel;
     private array $exchange;
+    private array $config;
 
-    public function __construct()
+    public function __construct(array $config)
     {
+        $this->config = $config;
         $this->setConnection();
         $this->channel = $this->connection->channel();
-            $this->exchange = ConfigHelper::get('connections.amqp.exchange');
+        $this->exchange = Arr::get($config, 'exchange.name');
     }
 
     public function publish(string $routingKey, string $message, array $options = []): void
@@ -32,18 +33,18 @@ class AMQPCarrier extends CarrierBase
     {
         $this->channel->basic_consume(
             $queue,
-            '',
-            false,
-            false,
-            false,
-            false,
+            Arr::get($this->config, 'consume.tag', ''),
+            Arr::get($this->config, 'consume.no_local', false),
+            Arr::get($this->config, 'consume.no_ack', false),
+            Arr::get($this->config, 'consume.exclusive', false),
+            Arr::get($this->config, 'consume.no_wait', false),
             function (AMQPMessage $message) use ($closure) {
                 $closure(new Message($message), $this);
             },
         );
 
         while ($this->channel->callbacks && false === $this->finish) {
-            $this->channel->wait(null, false, 2);
+            $this->channel->wait(null, false, Arr::get($this->config, 'consume.timeout', 2),);
         }
 
         $this->channel->close();
@@ -52,14 +53,13 @@ class AMQPCarrier extends CarrierBase
 
     private function setConnection(): void
     {
-        $connectionConfig = ConfigHelper::get('connections.amqp');
         $this->connection = new AMQPSSLConnection(
-            $connectionConfig['host'],
-            $connectionConfig['port'],
-            $connectionConfig['user'],
-            $connectionConfig['password'],
-            $connectionConfig['vhost'],
-            $connectionConfig['ssl_options']
+            Arr::get($this->config, 'host'),
+            Arr::get($this->config, 'port'),
+            Arr::get($this->config, 'user'),
+            Arr::get($this->config, 'password'),
+            Arr::get($this->config, 'vhost'),
+            Arr::get($this->config, 'ssl_options')
         );
 
         $this->connection->set_close_on_destruct(true);

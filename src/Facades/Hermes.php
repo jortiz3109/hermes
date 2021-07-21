@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * @method static MessageBroker queue(string $queue)
+ * @method static MessageBroker config(array $options)
  * @method static void publish(string $bindingKey, string $message, array $options = [])
  * @method static void consume(Closure $closure)
  *

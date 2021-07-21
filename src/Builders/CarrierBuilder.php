@@ -3,7 +3,6 @@ namespace JohnDev\Hermes\Builders;
 
 use JohnDev\Hermes\Carriers\AMQPCarrier;
 use JohnDev\Hermes\Contracts\CarrierContract;
-use JohnDev\Hermes\Helpers\ConfigHelper;
 
 class CarrierBuilder
 {
@@ -11,14 +10,9 @@ class CarrierBuilder
         'amqp' => AMQPCarrier::class
     ];
 
-    public static function build(): CarrierContract
+    public static function build(string $carrier, array $config): CarrierContract
     {
-        $brokerClass = self::resolver();
-        return new $brokerClass();
-    }
-
-    private static function resolver(): string
-    {
-        return self::CARRIERS[ConfigHelper::get('default')];
+        $carrierClass = self::CARRIERS[$carrier];
+        return new $carrierClass($config);
     }
 }

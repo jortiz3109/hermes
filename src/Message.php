@@ -2,7 +2,7 @@
 
 namespace JohnDev\Hermes;
 
-use Hermes\Contracts\MessageContract;
+use JohnDev\Hermes\Contracts\MessageContract;
 
 abstract class Message implements MessageContract
 {

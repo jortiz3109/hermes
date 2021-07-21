@@ -40,15 +40,15 @@ HERMES_DEFAULT_BROKER="amqp"
 ### AMQP Message broker configuration
 | Variable                  | Description                                                   | Default value |
 |---------------------------|---------------------------------------------------------------|---------------|
-| HERMES_AMQP_EXCHANGE_NAME | Name of the exchange to use                                   | amq.direct    |
-| HERMES_AMQP_EXCHANGE_TYPE | Type of exchange to be used                                   | direct        |
-| HERMES_AMQP_QUEUE_NAME    | Name to the queue to be connected                             | hermes        |
-| HERMES_AMQP_HOST          | The host to connect                                           |               |
-| HERMES_AMQP_PORT          | Port to be used to connect to amq host                        | 5672          |
-| HERMES_AMQP_USER          | User to be used to authenticate against host                  |               |
-| HERMES_AMQP_PASSWORD      | Password to be used to authenticate against host              |               |
-| HERMES_AMQP_VHOST         | Vhost to be used to connect to amq host                       | '/'           |
-| HERMES_AMQP_SSL_PROTOCOL  | Indicates the ssl protocol to use when connecting to the host | ssl           |
+| AMQP_EXCHANGE_NAME | Name of the exchange to use                                   | amq.direct    |
+| AMQP_EXCHANGE_TYPE | Type of exchange to be used                                   | direct        |
+| AMQP_QUEUE_NAME    | Name to the queue to be connected                             | hermes        |
+| AMQP_HOST          | The host to connect                                           |               |
+| AMQP_PORT          | Port to be used to connect to amq host                        | 5672          |
+| AMQP_USER          | User to be used to authenticate against host                  |               |
+| AMQP_PASSWORD      | Password to be used to authenticate against host              |               |
+| AMQP_VHOST         | Vhost to be used to connect to amq host                       | '/'           |
+| AMQP_SSL_PROTOCOL  | Indicates the ssl protocol to use when connecting to the host | ssl           |
 
 ## Usage
 ### Publish
@@ -87,10 +87,35 @@ Hermes::consume(function(Message $message, CarrierContract $carrier) {
 ```php
 <?php
 
+use JohnDev\Hermes\Facades\Hermes;
 use JohnDev\Hermes\Message;
 use JohnDev\Hermes\Contracts\CarrierContract;
 
 Hermes::queue('queue-name')->consume(function(Message $message, CarrierContract $carrier) {
+    dump($message->body());
+    $message->ack();
+    $carrier->finish();
+});
+```
+
+### Customize configuration in execution time
+If you want to customize the configuration in execution time, use the config() method available in Hermes facade
+
+```php
+<?php
+
+use JohnDev\Hermes\Facades\Hermes;
+use JohnDev\Hermes\Message;
+use JohnDev\Hermes\Contracts\CarrierContract;
+
+$config = [
+'consume' => [
+        'tag' => 'custom-tag',
+        'timeout' => 10,
+    ]
+];
+
+Hermes::config($config)->consume(function(Message $message, CarrierContract $carrier) {
     dump($message->body());
     $message->ack();
     $carrier->finish();

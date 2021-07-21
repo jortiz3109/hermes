@@ -51,8 +51,8 @@ HERMES_DEFAULT_BROKER="amqp"
 | HERMES_AMQP_SSL_PROTOCOL  | Indicates the ssl protocol to use when connecting to the host | ssl           |
 
 ## Usage
-
-### Publish a message
+### Publish
+#### Publish a message
 
 ```php
 <?php
@@ -65,7 +65,9 @@ $message = 'Test message';
 Hermes::publish($bindingKey, $message);
 ```
 
-### Consume a message and finish
+### Consume
+
+#### Consume a message and finish
 
 ```php
 <?php
@@ -74,6 +76,21 @@ use JohnDev\Hermes\Message;
 use JohnDev\Hermes\Contracts\CarrierContract;
 
 Hermes::consume(function(Message $message, CarrierContract $carrier) {
+    dump($message->body());
+    $message->ack();
+    $carrier->finish();
+});
+```
+
+#### Consume a message with different queue
+
+```php
+<?php
+
+use JohnDev\Hermes\Message;
+use JohnDev\Hermes\Contracts\CarrierContract;
+
+Hermes::queue('queue-name')->consume(function(Message $message, CarrierContract $carrier) {
     dump($message->body());
     $message->ack();
     $carrier->finish();

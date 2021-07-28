@@ -2,6 +2,8 @@
 namespace JohnDev\Hermes\Carriers;
 
 use Closure;
+use ErrorException;
+use Exception;
 use Illuminate\Support\Arr;
 use JohnDev\Hermes\Messages\AMQPMessage as Message;
 use PhpAmqpLib\Channel\AMQPChannel;
@@ -21,7 +23,7 @@ class AMQPCarrier extends CarrierBase
         $this->config = $config;
         $this->setConnection();
         $this->channel = $this->connection->channel();
-        $this->exchange = Arr::get($config, 'exchange.name');
+        $this->exchange = Arr::get($config, 'exchange');
     }
 
     public function publish(string $routingKey, string $message, array $options = []): void
@@ -29,6 +31,10 @@ class AMQPCarrier extends CarrierBase
         $this->channel->basic_publish($this->message($message, Arr::get($options, 'properties', [])), $this->exchange['name'], $routingKey);
     }
 
+    /**
+     * @throws ErrorException
+     * @throws Exception
+     */
     public function consume($queue, Closure $closure): void
     {
         $this->channel->basic_consume(
@@ -44,7 +50,7 @@ class AMQPCarrier extends CarrierBase
         );
 
         while ($this->channel->callbacks && false === $this->finish) {
-            $this->channel->wait(null, false, Arr::get($this->config, 'consume.timeout', 2),);
+            $this->channel->wait(null, false, Arr::get($this->config, 'consume.timeout', 2));
         }
 
         $this->channel->close();
@@ -53,14 +59,9 @@ class AMQPCarrier extends CarrierBase
 
     private function setConnection(): void
     {
-        $this->connection = new AMQPSSLConnection(
-            Arr::get($this->config, 'host'),
-            Arr::get($this->config, 'port'),
-            Arr::get($this->config, 'user'),
-            Arr::get($this->config, 'password'),
-            Arr::get($this->config, 'vhost'),
-            Arr::get($this->config, 'ssl_options')
-        );
+        Arr::get($this->config, 'ssl_enabled', true)
+            ? $this->setSSLConnection()
+            : $this->setStreamConnection();
 
         $this->connection->set_close_on_destruct(true);
     }
@@ -68,5 +69,41 @@ class AMQPCarrier extends CarrierBase
     private function message(string $message, array $properties): AMQPMessage
     {
         return new AMQPMessage($message, $properties);
+    }
+
+    private function setStreamConnection()
+    {
+        $this->connection = new AMQPStreamConnection(
+            Arr::get($this->config, 'host'),
+            Arr::get($this->config, 'port'),
+            Arr::get($this->config, 'user'),
+            Arr::get($this->config, 'password'),
+            Arr::get($this->config, 'vhost'),
+            Arr::get($this->config, 'options.insist'),
+            Arr::get($this->config, 'options.login_method'),
+            Arr::get($this->config, 'options.login_response'),
+            Arr::get($this->config, 'options.locale'),
+            Arr::get($this->config, 'options.connection_timeout'),
+            Arr::get($this->config, 'options.read_write_timeout'),
+            null,
+            Arr::get($this->config, 'options.keepalive'),
+            Arr::get($this->config, 'options.heartbeat'),
+            Arr::get($this->config, 'options.channel_rpc_timeout'),
+            null,
+        );
+    }
+
+    private function setSSLConnection()
+    {
+        $this->connection = new AMQPSSLConnection(
+            Arr::get($this->config, 'host'),
+            Arr::get($this->config, 'port'),
+            Arr::get($this->config, 'user'),
+            Arr::get($this->config, 'password'),
+            Arr::get($this->config, 'vhost'),
+            Arr::get($this->config, 'ssl_options', []),
+            Arr::get($this->config, 'options'),
+            Arr::get($this->config, 'ssl_protocol', 'ssl'),
+        );
     }
 }

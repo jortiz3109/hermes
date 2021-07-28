@@ -16,14 +16,24 @@ return [
                 'timeout' => 2,
             ],
             'host' => env('AMQP_HOST', ''),
-            'port' => env('AMQP_PORT', '5672'),
+            'port' => env('AMQP_PORT', 5672),
             'user' => env('AMQP_USER', ''),
             'password' => env('AMQP_PASSWORD', ''),
             'vhost' => env('AMQP_VHOST', '/'),
             'ssl' => env('AMQP_SSL', true),
-            'ssl_options' => [
-                'ssl_protocol' => env('AMQP_SSL_PROTOCOL', 'ssl'),
-            ]
+            'options' => [
+                'insist' => env('AMQP_OPTIONS_INSIST', false),
+                'login_method' => env('AMQP_OPTIONS_LOGIN_METHOD', 'AMQPLAIN'),
+                'login_response' => env('AMQP_OPTIONS_LOGIN_RESPONSE'),
+                'locale' => env('AMQP_OPTIONS_LOCALE', 'en_US'),
+                'connection_timeout' => env('AMQP_OPTIONS_CONNECTION_TIMEOUT', 3),
+                'read_write_timeout' => env('AMQP_OPTIONS_READ_WRITE_TIMEOUT', 130),
+                'keepalive' => env('AMQP_OPTIONS_KEEPALIVE', false),
+                'heartbeat' => env('AMQP_OPTIONS_HEARTBEAT', 0),
+                'channel_rpc_timeout' => env('AMQP_OPTIONS_CHANNEL_RPC_TIMEOUT', 0.0),
+            ],
+            'ssl_enabled' => env('AMQP_SSL_ENABLED', true),
+            'ssl_protocol' => env('AMQP_SSL_PROTOCOL', 'ssl'),
         ],
     ],
 ];

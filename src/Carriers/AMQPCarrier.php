@@ -59,7 +59,7 @@ class AMQPCarrier extends CarrierBase
 
     private function setConnection(): void
     {
-        Arr::get($this->config, 'ssl_enabled', true)
+        Arr::get($this->config, 'ssl', true)
             ? $this->setSSLConnection()
             : $this->setStreamConnection();
 
@@ -89,21 +89,23 @@ class AMQPCarrier extends CarrierBase
             Arr::get($this->config, 'options.keepalive'),
             Arr::get($this->config, 'options.heartbeat'),
             Arr::get($this->config, 'options.channel_rpc_timeout'),
-            null,
         );
     }
 
     private function setSSLConnection()
     {
+        $sslOptions = array_filter(Arr::get($this->config, 'ssl_options', []), function($item) {
+            return null !== $item;
+        });
+
         $this->connection = new AMQPSSLConnection(
             Arr::get($this->config, 'host'),
             Arr::get($this->config, 'port'),
             Arr::get($this->config, 'user'),
             Arr::get($this->config, 'password'),
             Arr::get($this->config, 'vhost'),
-            Arr::get($this->config, 'ssl_options', []),
-            Arr::get($this->config, 'options'),
-            Arr::get($this->config, 'ssl_protocol', 'ssl'),
+            $sslOptions,
+            Arr::get($this->config, 'options', []),
         );
     }
 }
